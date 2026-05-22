@@ -3,7 +3,7 @@ name: Build & Push Backend Despachos Docker Image
 on:
   push:
     branches:
-      - deploy
+      - main
     paths:
       - 'back-Despachos_SpringBoot/**'
       - '.github/workflows/despachos.yml'

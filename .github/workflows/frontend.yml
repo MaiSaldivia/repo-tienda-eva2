@@ -3,7 +3,7 @@ name: Build & Push Frontend Docker Image
 on:
   push:
     branches:
-      - deploy
+      - main
     paths:
       - 'front_despacho/**'
       - '.github/workflows/frontend.yml'

@@ -51,7 +51,7 @@ services:
       start_period: 10s
 
   # ============================================
-  # Backend Spring Boot - Despachos
+  # BACKEND Spring Boot - Despachos
   # ============================================
   backend-despachos:
     container_name: tienda-backend-despachos
