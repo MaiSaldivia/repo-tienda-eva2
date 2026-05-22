@@ -56,8 +56,8 @@ services:
   backend-despachos:
     container_name: tienda-backend-despachos
     build:
-      context: ./back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO
-      dockerfile: Dockerfile
+      context: .   # <--- CAMBIA ESTO A UN PUNTO (Raíz global)
+      dockerfile: back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO/Dockerfile # <--- RUTA COMPLETA AL DOCKERFILE
     ports:
       - "8081:8080"
     environment:
