@@ -27,7 +27,7 @@ services:
       start_period: 5s
 
   # ============================================
-  # BACKEND Spring Boot - Ventas
+  # BACKEND Spring Boot - VENTAS
   # ============================================
   backend-ventas:
     container_name: tienda-backend-ventas
