@@ -5,7 +5,7 @@ FROM maven:3.9-eclipse-temurin-21 AS builder
 
 WORKDIR /app
 
-# Copiar archivos de Maven
+# COPIAR archivos de Maven
 COPY pom.xml mvnw mvnw.cmd ./
 COPY .mvn .mvn/
 

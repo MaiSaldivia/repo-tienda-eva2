@@ -1,4 +1,4 @@
-name: Build & Push Backend Despachos Docker Image
+name: Build, Push & Deploy Backend Despachos Docker Image
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - '.github/workflows/despachos.yml'
 
 jobs:
-  build-and-push:
+  build-push-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,3 +40,18 @@ jobs:
           tags: |
             ${{ secrets.ECR_REPO_URL_BACKEND }}:latest
             ${{ secrets.ECR_REPO_URL_BACKEND }}:${{ github.sha }}
+
+      - name: Deploy automático en EC2 Backend
+        run: |
+          aws ssm send-command \
+            --instance-ids "${{ secrets.EC2_BACKEND_INSTANCE_ID }}" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy Backend Despachos" \
+            --parameters 'commands=[
+              "docker stop backend-despachos || true",
+              "docker rm backend-despachos || true",
+              "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}",
+              "docker pull ${{ secrets.ECR_REPO_URL_BACKEND }}:latest",
+              "docker run -d --name backend-despachos --restart always -p 8081:8080 ${{ secrets.ECR_REPO_URL_BACKEND }}:latest"
+            ]' \
+            --region us-east-1
