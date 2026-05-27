@@ -11,7 +11,7 @@ COPY package.json package-lock.json ./
 # Instalar dependencias
 RUN npm ci
 
-# Copiar código fuente
+# Copiar código FUENTE
 COPY . .
 
 # Build de la aplicación Vite

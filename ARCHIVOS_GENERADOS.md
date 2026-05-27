@@ -8,7 +8,7 @@ Todos los archivos necesarios han sido creados en sus ubicaciones correctas dent
 
 ## 📁 DOCKERFILES (3 archivos)
 
-### 1. Frontend React + Vite
+### 1. FRONTEND React + Vite
 ```
 📄 front_despacho/Dockerfile
 ```

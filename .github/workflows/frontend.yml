@@ -1,4 +1,4 @@
-name: Build & Push Frontend Docker Image
+name: Build, Push & Deploy Frontend Docker Image
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - '.github/workflows/frontend.yml'
 
 jobs:
-  build-and-push:
+  build-push-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,3 +40,20 @@ jobs:
           tags: |
             ${{ secrets.ECR_REPO_URL_FRONTEND }}:latest
             ${{ secrets.ECR_REPO_URL_FRONTEND }}:${{ github.sha }}
+
+      - name: Esperar propagación ECR
+        run: sleep 15
+
+      - name: Deploy Frontend en EC2 usando SSM
+        run: |
+          aws ssm send-command \
+            --instance-ids "${{ secrets.EC2_FRONTEND_INSTANCE_ID }}" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy Frontend" \
+            --parameters commands='[
+              "aws ecr get-login-password --region '${{ secrets.AWS_REGION }}' | sudo docker login --username AWS --password-stdin '${{ secrets.ECR_REGISTRY }}'",
+              "sudo docker pull '${{ secrets.ECR_REPO_URL_FRONTEND }}':latest",
+              "sudo docker stop frontend || true",
+              "sudo docker rm frontend || true",
+              "sudo docker run -d --name frontend --restart always -p 80:80 '${{ secrets.ECR_REPO_URL_FRONTEND }}':latest"
+            ]'
