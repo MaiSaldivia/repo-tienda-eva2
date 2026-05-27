@@ -5,7 +5,7 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# COPIAR archivos de dependencias
+# COPIAR ARCHIVOS de dependencias
 COPY package.json package-lock.json ./
 
 # Instalar dependencias
